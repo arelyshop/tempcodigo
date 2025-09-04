@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizador de CSV Avanzado</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        td {
+            position: relative;
+            padding: 0.5rem !important; /* Celdas más pequeñas */
+            max-width: 180px; /* Limita el ancho de las celdas */
+        }
+        .copy-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(59, 130, 246, 0.85); /* bg-blue-500 with opacity */
+            color: white;
+            border: none;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem; /* Icono grande */
+            border-radius: inherit;
+        }
+        td:hover .copy-btn {
+            opacity: 1;
+        }
+        /* Para que el contenido de la celda no se solape con el botón */
+        td > span {
+            display: block;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap; /* Mantiene el texto en una línea y permite '...' */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="bg-white shadow-lg rounded-xl p-6 md:p-8">
+            <header class="mb-6 border-b pb-4">
+                <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Visor de Archivos CSV Avanzado</h1>
+                <p class="text-gray-600 mt-1">Carga, busca y copia datos de tus archivos CSV de forma interactiva.</p>
+            </header>
+
+            <!-- Controles -->
+            <div class="flex flex-col md:flex-row gap-4 mb-6">
+                 <!-- Input para cargar el archivo -->
+                <div class="flex-grow">
+                    <input type="file" id="csvFileInput" accept=".csv" class="w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"/>
+                    <p id="fileName" class="text-xs text-gray-500 mt-2 pl-1"></p>
+                </div>
+                 <!-- Buscador -->
+                <div class="flex-grow">
+                     <input type="text" id="searchInput" placeholder="Buscar en la tabla..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" disabled>
+                </div>
+            </div>
+
+            <!-- Contenedor de la tabla con scroll -->
+            <div class="overflow-x-auto rounded-lg border border-gray-200">
+                <table id="csvTable" class="min-w-full divide-y-2 divide-gray-200 bg-white text-xs">
+                    <thead id="tableHead" class="bg-gray-50">
+                        <!-- La cabecera se generará aquí -->
+                    </thead>
+                    <tbody id="tableBody" class="divide-y divide-gray-200">
+                         <tr>
+                            <td colspan="1" class="text-center text-gray-500 py-10 text-sm">Aún no se ha cargado ningún archivo.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const csvFileInput = document.getElementById('csvFileInput');
+        const tableHead = document.getElementById('tableHead');
+        const tableBody = document.getElementById('tableBody');
+        const fileNameDisplay = document.getElementById('fileName');
+        const searchInput = document.getElementById('searchInput');
+
+        function copyToClipboard(text, button) {
+            // navigator.clipboard.writeText es moderno pero puede fallar en iframes/sandboxes
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showFeedback(button);
+                }).catch(err => {
+                    console.warn('Fallback: Error al copiar con la API moderna, usando execCommand.', err);
+                    fallbackCopy(text, button);
+                });
+            } else {
+                 console.warn('Fallback: Usando execCommand porque el contexto no es seguro o la API no está disponible.');
+                 fallbackCopy(text, button);
+            }
+        }
+        
+        function fallbackCopy(text, button){
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = text;
+            tempTextArea.style.position = 'absolute';
+            tempTextArea.style.left = '-9999px';
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            try {
+                document.execCommand('copy');
+                showFeedback(button);
+            } catch (err) {
+                console.error('Error al copiar con execCommand:', err);
+                 alert('Error al copiar el texto.');
+            }
+            document.body.removeChild(tempTextArea);
+        }
+
+        function showFeedback(button) {
+            const originalIcon = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-check"></i>';
+            setTimeout(() => {
+                button.innerHTML = originalIcon;
+            }, 1500);
+        }
+
+        csvFileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            if (!file.name.endsWith('.csv')) {
+                alert('Por favor, selecciona un archivo con formato .csv');
+                csvFileInput.value = '';
+                return;
+            }
+
+            fileNameDisplay.textContent = `Archivo: ${file.name}`;
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const text = e.target.result;
+                const rows = text.split('\n').filter(row => row.trim() !== '');
+
+                tableHead.innerHTML = '';
+                tableBody.innerHTML = '';
+
+                if (rows.length === 0) {
+                    tableBody.innerHTML = '<tr><td class="text-center text-gray-500 py-10">El archivo CSV está vacío.</td></tr>';
+                    searchInput.disabled = true;
+                    return;
+                }
+
+                // Generar cabecera dinámicamente
+                const headers = rows[0].split(',');
+                const headerRow = tableHead.insertRow();
+                headers.forEach(headerText => {
+                    const th = document.createElement('th');
+                    th.className = "whitespace-nowrap px-4 py-3 font-semibold text-left text-gray-900";
+                    th.textContent = headerText.trim();
+                    headerRow.appendChild(th);
+                });
+
+                // Llenar el cuerpo de la tabla
+                for (let i = 1; i < rows.length; i++) {
+                    const cells = rows[i].split(',');
+                    const newRow = tableBody.insertRow();
+                    cells.forEach(cellData => {
+                        const cell = newRow.insertCell();
+                        cell.className = 'px-2 py-2 text-gray-700';
+                        const trimmedData = cellData.trim();
+                        
+                        const textSpan = document.createElement('span');
+                        textSpan.textContent = trimmedData;
+
+                        const copyBtn = document.createElement('button');
+                        copyBtn.className = 'copy-btn';
+                        copyBtn.innerHTML = '<i class="far fa-copy"></i>';
+                        copyBtn.title = 'Copiar celda';
+                        copyBtn.onclick = () => copyToClipboard(trimmedData, copyBtn);
+                        
+                        cell.appendChild(textSpan);
+                        cell.appendChild(copyBtn);
+                    });
+                }
+                searchInput.disabled = false;
+            };
+
+            reader.onerror = function() {
+                alert('Hubo un error al leer el archivo.');
+                fileNameDisplay.textContent = '';
+                searchInput.disabled = true;
+            };
+
+            reader.readAsText(file);
+        });
+
+        searchInput.addEventListener('input', () => {
+            const filter = searchInput.value.toLowerCase();
+            const rows = tableBody.getElementsByTagName('tr');
+            for (const row of rows) {
+                const cells = row.getElementsByTagName('td');
+                let found = false;
+                for (const cell of cells) {
+                    if (cell && cell.textContent.toLowerCase().includes(filter)) {
+                        found = true;
+                        break;
+                    }
+                }
+                row.style.display = found ? '' : 'none';
+            }
+        });
+    </script>
+</body>
+</html>
+
+
