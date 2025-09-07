@@ -181,12 +181,13 @@
                     const timeoutId = setTimeout(() => controller.abort(), 7000); // 7-second timeout
 
                     try {
-                        const proxyUrl = `https://allorigins.win/get?url=${encodeURIComponent(finalAddress)}`;
+                        // Usando un proxy CORS para obtener la URL de redirección final
+                        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(finalAddress)}`;
                         const response = await fetch(proxyUrl, { signal: controller.signal });
                         clearTimeout(timeoutId);
 
                         if (!response.ok) {
-                            throw new Error('No se pudo resolver el enlace corto. El servicio intermediario no responde correctamente.');
+                            throw new Error('El servicio para convertir enlaces cortos falló. Inténtalo de nuevo o pega el enlace largo de Google Maps manualmente.');
                         }
                         const data = await response.json();
                         const longUrl = data.status.url;
@@ -201,7 +202,8 @@
                         if (err.name === 'AbortError') {
                             throw new Error('La conversión del enlace tardó demasiado. Revisa tu conexión o pega el enlace completo manualmente.');
                         }
-                        throw err; // Re-throw other errors
+                         // Re-lanzar el error para que sea atrapado por el bloque catch principal.
+                        throw err;
                     }
                 }
 
