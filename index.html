@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arelyshop.pe - Página Principal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .carousel-container {
+            overflow: hidden;
+            position: relative;
+        }
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .carousel-slide {
+            min-width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Header Section (Copied from product-page.html) -->
+    <header class="bg-white md:bg-white shadow-md sticky top-0 z-50">
+        <!-- Top promotional banner -->
+        <div class="bg-[#4F07C8] text-white p-1 relative">
+             <div class="container mx-auto flex items-center justify-center">
+                <a href="#" class="flex-grow">
+                    <img src="https://promart.vteximg.com.br/arquivos/mv-transversal-08092025.webp?v=638929316280870000" alt="Aniversario Arelyshop" class="mx-auto h-8 md:h-10">
+                </a>
+                <button class="absolute top-1/2 right-4 -translate-y-1/2 text-white text-2xl font-bold">&times;</button>
+             </div>
+        </div>
+        
+        <!-- Mobile Header -->
+        <div class="md:hidden bg-[#ff6e00] text-white p-2">
+            <div class="flex items-center justify-between">
+                <button class="flex items-center space-x-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                    <span class="text-xs font-semibold">MENÚ</span>
+                </button>
+                <a href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                </a>
+                <div class="relative">
+                    <input type="text" placeholder="¿Qué estás buscando?" class="bg-white text-gray-800 rounded-full py-1 pl-8 pr-3 text-sm w-40 focus:outline-none">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                </div>
+                <a href="#" class="relative p-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                    <span class="absolute top-0 right-0 bg-white text-[#ff6e00] text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">0</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Desktop Header -->
+        <div class="hidden md:block">
+             <!-- Top bar with partner links -->
+            <div class="hidden md:flex justify-between items-center text-xs text-gray-600 py-1 border-b container mx-auto px-4">
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-[#ff6e00]">Plaza Vea</a>
+                    <a href="#" class="hover:text-[#ff6e00]">Real Plaza</a>
+                    <a href="#" class="hover:text-[#ff6e00]">Oechsle</a>
+                    <a href="#" class="hover:text-[#ff6e00]">Vivanda</a>
+                    <a href="#" class="hover:text-[#ff6e00]">Inkafarma</a>
+                    <a href="#" class="hover:text-[#ff6e00]">Mifarma</a>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-[#ff6e00]">Club Pro</a>
+                    <a href="#" class="hover:text-[#ff6e00]">Nuestro Blog</a>
+                    <a href="#" class="hover:text-[#ff6e00]">Venta empresa</a>
+                </div>
+            </div>
+            <!-- Main Header -->
+            <div class="bg-[#ff6e00] text-white">
+                <div class="container mx-auto px-4">
+                    <div class="flex justify-between items-center py-2">
+                        <div class="flex items-center space-x-4">
+                            <button class="flex items-center space-x-2 p-2 rounded-md hover:bg-white/20 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                                <span class="hidden lg:inline font-semibold text-sm">MENÚ</span>
+                            </button>
+                            <a href="#" class="text-2xl md:text-3xl font-extrabold text-white">ARELYSHOP</a>
+                        </div>
+                        <div class="hidden md:flex flex-1 max-w-2xl mx-4">
+                            <div class="relative w-full">
+                                 <input type="text" placeholder="¿Qué estás buscando?" class="w-full pl-10 pr-4 py-2 border-transparent text-gray-900 rounded-full focus:outline-none focus:ring-2 focus:ring-[#ff6e00]">
+                                 <div class="absolute left-4 top-1/2 -translate-y-1/2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                                 </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4 lg:space-x-6">
+                            <a href="#" class="hidden lg:flex items-center space-x-2 hover:opacity-80 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                <div class="text-left">
+                                    <p class="text-xs leading-tight">Selecciona</p>
+                                    <p class="text-sm font-semibold leading-tight">tu ubicación</p>
+                                </div>
+                            </a>
+                            <a href="#" class="hidden lg:flex items-center space-x-2 hover:opacity-80 transition">
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                                 <div class="text-left">
+                                    <p class="text-xs leading-tight">Hola, inicia sesión</p>
+                                    <p class="text-sm font-semibold leading-tight">Mi cuenta y pedidos</p>
+                                 </div>
+                            </a>
+                            <a href="product-page.html" class="relative flex items-center space-x-2 hover:opacity-80 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                                <span class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Banner Carousel -->
+        <section class="carousel-container w-full">
+            <div class="carousel-track">
+                <div class="carousel-slide">
+                    <picture>
+                        <source media="(max-width: 680px)" srcset="https://images.ctfassets.net/u7dr43bszaws/66KmxBFA1XDgOb3OT4qAI7/5a5244a2e7e1f6192797b6ad91a0a24c/mv-electrodays-08092025-01.webp">
+                        <source media="(min-width: 681px)" srcset="https://images.ctfassets.net/u7dr43bszaws/6uPmEPlRyyyX5qraEL7fgH/603080e7fe81b916a5bd9c3663b99bd5/dv-electrodays-08092025-01.webp">
+                        <img src="https://images.ctfassets.net/u7dr43bszaws/6uPmEPlRyyyX5qraEL7fgH/603080e7fe81b916a5bd9c3663b99bd5/dv-electrodays-08092025-01.webp" alt="Banner Electro" class="w-full h-auto">
+                    </picture>
+                </div>
+                <div class="carousel-slide">
+                    <picture>
+                         <source media="(max-width: 680px)" srcset="https://images.ctfassets.net/u7dr43bszaws/6ln79kVjBMV6DjrJUMbCkS/c7f36d11eb7533be85155245847683b1/mv-electrodays-08092025-02-v2.webp">
+                         <source media="(min-width: 681px)" srcset="https://images.ctfassets.net/u7dr43bszaws/7JQY9l2UBFtMvRoLUynEaw/5965927ce36ec35226917a2943edf2f4/dv-electrodays-08092025-02-v2.webp">
+                         <img src="https://images.ctfassets.net/u7dr43bszaws/7JQY9l2UBFtMvRoLUynEaw/5965927ce36ec35226917a2943edf2f4/dv-electrodays-08092025-02-v2.webp" alt="Banner Muebles" class="w-full h-auto">
+                    </picture>
+                </div>
+                <div class="carousel-slide">
+                     <picture>
+                        <source media="(max-width: 680px)" srcset="https://images.ctfassets.net/u7dr43bszaws/40i20DkhBSE4Fb8Qf3Ly2l/96d3ee49691b2e8a9b81140e7594909d/mv-electrodays-08092025-16.webp">
+                        <source media="(min-width: 681px)" srcset="https://images.ctfassets.net/u7dr43bszaws/71gchaBPihvJXWpv7UEnjo/654715b21d83948ce4dbec900d9115d7/dv-electrodays-08092025-16.webp">
+                        <img src="https://images.ctfassets.net/u7dr43bszaws/71gchaBPihvJXWpv7UEnjo/654715b21d83948ce4dbec900d9115d7/dv-electrodays-08092025-16.webp" alt="Banner Iluminacion" class="w-full h-auto">
+                    </picture>
+                </div>
+                 <div class="carousel-slide">
+                    <picture>
+                        <source media="(max-width: 680px)" srcset="https://images.ctfassets.net/u7dr43bszaws/DwXC3cI92xFp7XOgwOfWw/8dd578c68c66d5eeb09ebeb94a951492/mv-electrodays-08092025-03.webp">
+                        <source media="(min-width: 681px)" srcset="https://images.ctfassets.net/u7dr43bszaws/2tAb5ueccl3tb4zXNkgWXz/fa32e56f0fd5bb72bb6000c8c110e44e/dv-electrodays-08092025-03.webp">
+                        <img src="https://images.ctfassets.net/u7dr43bszaws/2tAb5ueccl3tb4zXNkgWXz/fa32e56f0fd5bb72bb6000c8c110e44e/dv-electrodays-08092025-03.webp" alt="Banner Samsung" class="w-full h-auto">
+                    </picture>
+                </div>
+            </div>
+            <!-- Controls -->
+            <button id="prevBtn" class="absolute top-1/2 left-4 -translate-y-1/2 bg-white/50 hover:bg-white p-2 rounded-full shadow-md transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+            </button>
+            <button id="nextBtn" class="absolute top-1/2 right-4 -translate-y-1/2 bg-white/50 hover:bg-white p-2 rounded-full shadow-md transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+            </button>
+            <!-- Dots -->
+            <div id="dots-container" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2"></div>
+        </section>
+
+        <!-- Placeholder for other home page content -->
+        <section class="container mx-auto p-4 md:p-8">
+            <h2 class="text-2xl font-bold text-center text-gray-800 mb-8">Productos Destacados</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- Example Product Card -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden group">
+                    <a href="product-page.html" class="block">
+                        <img src="https://promart.vteximg.com.br/arquivos/ids/9160400-444-444/imageUrl_1.jpg?v=638895404326000000" alt="Producto 1" class="w-full h-48 object-cover group-hover:opacity-80 transition">
+                        <div class="p-4">
+                            <h3 class="font-semibold text-gray-800">Cable Usb C Ugreen</h3>
+                            <p class="text-gray-600 mt-2">S/ 45.99</p>
+                        </div>
+                    </a>
+                </div>
+                 <!-- Add more product cards as needed -->
+            </div>
+        </section>
+
+    </main>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const track = document.querySelector('.carousel-track');
+            const slides = Array.from(track.children);
+            const nextButton = document.getElementById('nextBtn');
+            const prevButton = document.getElementById('prevBtn');
+            const dotsContainer = document.getElementById('dots-container');
+
+            const slideWidth = slides[0].getBoundingClientRect().width;
+            
+            // Arrange slides next to one another
+            const setSlidePosition = (slide, index) => {
+                slide.style.left = slideWidth * index + 'px';
+            };
+            // slides.forEach(setSlidePosition);
+
+            let currentIndex = 0;
+
+            // Create dots
+            slides.forEach((slide, index) => {
+                const dot = document.createElement('button');
+                dot.classList.add('h-2', 'w-2', 'rounded-full', 'bg-white/50', 'transition');
+                if (index === 0) {
+                    dot.classList.add('bg-white');
+                }
+                dot.addEventListener('click', () => {
+                    currentIndex = index;
+                    updateCarousel();
+                });
+                dotsContainer.appendChild(dot);
+            });
+            
+            const dots = Array.from(dotsContainer.children);
+
+            const updateCarousel = () => {
+                track.style.transform = 'translateX(-' + slideWidth * currentIndex + 'px)';
+                dots.forEach((dot, index) => {
+                    if (index === currentIndex) {
+                        dot.classList.add('bg-white');
+                        dot.classList.remove('bg-white/50');
+                    } else {
+                        dot.classList.remove('bg-white');
+                        dot.classList.add('bg-white/50');
+                    }
+                });
+            };
+
+            // When I click left, move slides to the left
+            prevButton.addEventListener('click', e => {
+                currentIndex--;
+                if (currentIndex < 0) {
+                    currentIndex = slides.length - 1;
+                }
+                updateCarousel();
+            });
+
+            // When I click right, move slides to the right
+            nextButton.addEventListener('click', e => {
+                currentIndex++;
+                if (currentIndex >= slides.length) {
+                    currentIndex = 0;
+                }
+                updateCarousel();
+            });
+
+            // Autoplay
+            setInterval(() => {
+                nextButton.click();
+            }, 5000); // Change slide every 5 seconds
+        });
+
+    </script>
+</body>
+</html>
